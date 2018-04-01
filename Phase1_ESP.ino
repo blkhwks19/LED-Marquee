@@ -87,7 +87,7 @@ void loop() {
   // Read from the UNO. If we get a '~' then send the custom message as a response
   while(Serial.available()) {
     if (Serial.readString() == "~") {
-      Serial.write(str);
+      Serial.print(str);
     }
   }
 
