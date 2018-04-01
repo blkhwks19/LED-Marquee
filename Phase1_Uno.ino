@@ -899,13 +899,14 @@ void scroll() {
 // Notifies the ESP Wifi module that we're ready to retrieve custom message data
 void getCustomData() {
   // send special symbol so ESP knows to respond with custom message data
-  virtualSerial.write("~");
-
+  virtualSerial.print("~");
   // loop until its available
+  while (!virtualSerial.available()){  
+    delay(500);
+  }
   
-  
-  intlen  = virtualSerial.readBytesUntil( '\r' , str , STRINGBUFFER_LEN );
-  
+  // do i need to put the next two lines inside a while (virtualSerial.available()){...} loop?
+  int len  = virtualSerial.readBytesUntil('\r', str, STRINGBUFFER_LEN);
   str[len] = 0x00;        // Null terminate
 }
 
