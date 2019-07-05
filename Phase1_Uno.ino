@@ -502,6 +502,10 @@ void ledsetup() {
 void setup() {
     
   ledsetup();  
+
+  Serial.begin(115200);
+  virtualSerial.begin(115200);
+  Serial.println("BEGINNING");
   
 }
 
@@ -899,15 +903,20 @@ void scroll() {
 // Notifies the ESP Wifi module that we're ready to retrieve custom message data
 void getCustomData() {
   // send special symbol so ESP knows to respond with custom message data
+  Serial.println("Sending tilde character");
   virtualSerial.print("~");
   // loop until its available
   while (!virtualSerial.available()){  
+    Serial.print(".");
     delay(500);
   }
-  
+  Serial.println(".");
+  Serial.println("Getting data...");
   // do i need to put the next two lines inside a while (virtualSerial.available()){...} loop?
   int len  = virtualSerial.readBytesUntil('\r', str, STRINGBUFFER_LEN);
   str[len] = 0x00;        // Null terminate
+  Serial.println(len);
+  Serial.println(str);
 }
 
 
