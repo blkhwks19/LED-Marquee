@@ -1,8 +1,8 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid = "********";
+const char* ssid = "NHL Network";
 const char* password = "********";
-const char* host = "********";
+const char* host = "jeffschaefer.net";
 const int httpPort = 80;
 
 String str = "";
@@ -69,19 +69,21 @@ void loop() {
   
   // Read the reply from server, store message data for later
   while(client.available()){
-    str = client.readString();
-    Serial.println("BEGIN");
-    Serial.println(str);
-    Serial.println("END");
-    
-//    String line = client.readStringUntil('Z');
-//    if (line.substring(0,4) == "HTTP") {
-//      Serial.print("Skipped headers");
-//    }
-//    else {
-//      Serial.print(line);
-//      str += line;
-//    }
+//    str = client.readString();
+//    Serial.println("BEGIN");
+//    Serial.println(str);
+//    Serial.println("END");
+
+
+    // For now put a Z at top of data file, and use readBytesUntil(). Next phase, change it to a '{' since that will be what is used for JSON
+    String line = client.readStringUntil('Z');
+    if (line.substring(0,4) == "HTTP") {
+      Serial.print("SKIPPED HEADERS");
+    }
+    else {
+      Serial.print(line);
+      str += line;
+    }
   }
   
   // Read from the UNO. If we get a '~' then send the custom message as a response
