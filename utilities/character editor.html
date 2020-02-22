@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Character Editor</title>
+<style>
+body {
+    margin-left: 30px;
+}
+td {
+    background-color: #eee;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+    border-radius: 90%;
+}
+.filled {
+    background-color: black;
+}
+#widthStepper {
+    width: 40px;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+
+    // create table
+    for (var i = 0; i < $('#widthStepper').val(); i++) { 
+        $('tr').append('<td></td>');
+    }
+    update();
+
+    $('#name').keyup(function(){
+        update();
+    });
+
+    $('#clearBtn').click(function() {
+        $('td').removeClass('filled');
+        $('#name').val('');
+        update();
+    });
+
+    $('#widthStepper').change(function() {
+        var w = $(this).val();
+        var currW = $('tr:first-child td').length;
+        
+        var i;
+        if (w > currW) {
+            var colsToAdd = w - currW;
+            for (i = 0; i < colsToAdd; i++) {
+                $('tr').append('<td></td>');
+            }
+        } else if (w < currW) {
+            var colsToRemove = currW - w;
+            for (i = 0; i < colsToRemove; i++) {
+                $('tr td:last-child').remove();
+            }
+        }
+    });
+
+    $('tr').on('click', 'td', function() {
+        $(this).toggleClass('filled');
+        update();
+    });
+
+    $('#copyBtn').click(function() {
+        $('#output').select();
+        document.execCommand("copy");
+        $('#output').blur();
+    });
+
+});
+
+function update() {
+    var str = '';
+    var w = $('#widthStepper').val();
+
+    for (var i = 1; i <= w; i++) { // loop through columns set by width
+        var binary = '';
+        $('td:nth-child('+i+')').each(function() { // i=1 => i is 1st td in each tr
+            binary += $(this).hasClass('filled') ? '1' : '0';
+        });
+        
+        var hex = parseInt(binary, 2).toString(16); // convert binary string to decimal, then to hex string
+        hex = (parseInt(hex, 16) < 10) ? '0' + hex : hex; // if int of hex string < 10, pad w/ leading 0
+        
+        str += '0x' + hex + ',';
+    }
+
+    var name = $('#name').val() || 'icon';
+
+    var iconStr = 'const uint8_t '+name+'[] PROGMEM = { '+str+' };';
+    $('#output').val(iconStr + '\r');
+}
+</script>
+</head>
+<body>
+Name<br>
+<input id="name" type="text" cols="100">
+<br><br>
+<button id="clearBtn">Clear</button> <input id="widthStepper" type="number" min="1" max="210" value="8"></input> - width
+
+<br><br>
+
+<!-- always 8 rows / pixels tall -->
+<table>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+</table>
+
+<br>
+
+<button id="copyBtn">Copy</button>
+<br><br>
+<input id="output" type="text" size="75">
+
+</body>
+</html>

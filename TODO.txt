@@ -1,0 +1,9 @@
+- Font DONE
+
+- Get/display message properly from server
+
+- Web app to change message
+
+- Change data to JSON instead of string
+
+- Add properties like scroll speed, color, etc to JSON data

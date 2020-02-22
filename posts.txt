@@ -1,0 +1,34 @@
+
+AUGUST 12, 2016 - 6:16 PM
+bigjosh2
+One of the benefits of using only a 7-bit font was to leave the bottom bit free for serial input (it happens to land on the RX pin on the Arduino). You could connect this to the serial port of a computer or RaspberryPi to get text to scroll. The serial-in code would be straight forward, and I’d also make the scroll speed dependent on how full the input buffer was to keep the scrolling nice and smooth and continuous.
+
+
+
+Superb build Josh. Do you think there is a way to have text input into the sign in real time?
+
+Reply
+
+OCTOBER 21, 2017 - 11:29 PM
+bigjosh2
+Yes, I intentionally left the RX pin on the Arduino free so it could read real time serial data either from a computer or maybe an ESP or something like that. I don’t have this sign anymore to play with, but it should not be hard to set that pin up to be a serial in and display data coming in.
+
+
+
+
+
+my question is how to make steps with steady speed on time and not advancing when the message reaches the end…
+
+thanks
+
+Niko
+
+Reply
+
+SEPTEMBER 22, 2016 - 11:31 AM
+bigjosh2
+Probably simplest way is just to add enough spaces at the end of the message string to fill the display. A more robust way would be to change the `sendstring()` function to automatically pad spaces at the end of the LEDs when it gets to the end of the messages string. An _even more_ robost way would be to change the `sendchar()` function to take both a starting and ending column and then have `sendstring()` exactly fill `PIXELS` number of columns… but this whole program is really just a demo of the parallel computing scheme in the previous post, so simplest is probably best! :)
+
+
+
+
