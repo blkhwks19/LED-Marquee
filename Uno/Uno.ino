@@ -542,8 +542,8 @@ void stationary() {
 // Notifies the ESP Wifi module that we're ready to retrieve custom message data
 void getCustomData() {
   // send special symbol so ESP knows to respond with custom message data
-//  Serial.println("Sending tilde character");
-  virtualSerial.print("~");
+//  Serial.println("Sending special character");
+  virtualSerial.print("Z");
   // loop until its available
   while (!virtualSerial.available()){  
 //    Serial.print(".");
