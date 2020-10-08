@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid = "NHL Network";
-const char* password = "@Haley2010";
+const char* ssid = "";
+const char* password = "";
 const char* host = "jeffschaefer.net";
 const int httpPort = 80;
 
@@ -75,8 +75,8 @@ void loop() {
 //    Serial.println("END");
 
 
-    // For now put a Z at top of data file, and use readBytesUntil(). Next phase, change it to a '{' since that will be what is used for JSON
-    String block = client.readStringUntil('Z');
+    // For now put a ~ at top of data file, and use readBytesUntil(). Next phase, change it to a '{' since that will be what is used for JSON
+    String block = client.readStringUntil('~');
     if (block.substring(0,4) != "HTTP") {
 //    Serial.print("SKIPPED HEADERS");
       str += block;
